@@ -1,3 +1,4 @@
+from operator import mod
 from django.contrib import admin
 from django.conf import settings
 from django.core.validators import MinValueValidator
@@ -41,6 +42,12 @@ class Product(models.Model):
 
     class Meta:
         ordering = ['title']
+
+
+class ProductImage(models.Model):
+    Product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='store/images')
 
 
 class Customer(models.Model):
@@ -100,7 +107,8 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.PROTECT, related_name='items')
+    order = models.ForeignKey(
+        Order, on_delete=models.PROTECT, related_name='items')
     product = models.ForeignKey(
         Product, on_delete=models.PROTECT, related_name='orderitems')
     quantity = models.PositiveSmallIntegerField()
