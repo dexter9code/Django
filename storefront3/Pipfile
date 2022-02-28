@@ -19,6 +19,7 @@ redis = "*"
 celery = "*"
 locust = "*"
 django-silk = "*"
+django-redis = "*"
 
 [dev-packages]
 autopep8 = "*"
