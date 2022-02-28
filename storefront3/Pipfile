@@ -21,6 +21,8 @@ locust = "*"
 django-silk = "*"
 django-redis = "*"
 whitenoise = "*"
+gunicorn = "*"
+portalocker = "*"
 
 [dev-packages]
 autopep8 = "*"
