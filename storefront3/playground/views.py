@@ -4,9 +4,11 @@ from templated_mail.mail import BaseEmailMessage
 import requests
 from django.core.cache import cache
 from django.views.decorators.cache import cache_page
+import logging
+
+logger = logging.getLogger(__name__)
 
 
-@cache_page(5*60)
 def say_hello(request):
     # try:
     #     message = BaseEmailMessage(
@@ -14,6 +16,11 @@ def say_hello(request):
     #     message.send(['doomdexter07@gmail.com'])
     # except BadHeaderError:
     #     pass
-    response = requests.get('https://httpbin.org/delay/3')
-    data = response.json()
+    try:
+        logger.info('calling the webserver')
+        response = requests.get('https://httpbin.org/delay/3')
+        logger.info('recived reponse after a delay')
+        data = response.json()
+    except requests.ConnectionError:
+        logger.critical('webserver is currently out-of-permisses')
     return render(request, 'hello.html', {'name': data})
